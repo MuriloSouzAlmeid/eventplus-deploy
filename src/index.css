@@ -1,34 +1,34 @@
 @font-face {
-    font-family: Poppins-Regular;
-    src: url(./assets/fonts/Poppins/Poppins-Regular.ttf);
-  }
+  font-family: Poppins-Regular;
+  src: url(./assets/fonts/Poppins/Poppins-Regular.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins-Regular','Courier New', Courier, monospace;
+}
+
+:root {
+  /* Variáveis de tema */
   
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  /* smartphone */
+  --color-white: #fff;
+  --color-dark-blue: #201849;
+  --color-blue-red: #511948;
+  --color-medium-red: #821B47;
+  --color-red: #B51D44;
+  --text-color: #000;
   
-  body {
-    font-family: 'Poppins-Regular','Courier New', Courier, monospace;
-  }
-  
-  :root {
-    /* Variáveis de tema */
-    
-    /* smartphone */
-    --color-white: #fff;
-    --color-dark-blue: #201849;
-    --color-light-brown: #B4A9A9;
-    --color-blue-red: #511948;
-    --color-medium-red: #821B47;
-    --color-red: #B51D44;
-    --text-color: #000;
-    
-    /* desktop */
-  
-  }
-  /* main {
-    border: 1px solid green;
-    margin-top: 55px;
-  } */
+  /* desktop */
+
+}
+
+/* main {
+  border: 1px solid green;
+  margin-top: 55px;
+} */

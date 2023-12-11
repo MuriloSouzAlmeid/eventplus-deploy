@@ -1,3 +1,4 @@
+/* Smartphone */
 @font-face {
     font-family: Poppins-Thin;
     src: url(../../assets/fonts/Poppins/Poppins-Thin.ttf);
@@ -8,7 +9,7 @@
 }
 
 .perfil-usuario {
-    width: 150px;
+    width: 120px;
     /* height: 40px; */
     display: flex;
     justify-content: space-between;
@@ -20,18 +21,9 @@
 
 .perfil-usuario__menuitem {
     font-family: Poppins-Regular;
-    font-size: 1rem;
+    font-size: .8rem;
     color: #201849;
     text-decoration: none;
-    text-align: center;
-}
-
-.perfil-usuario__menuitem__link:hover{
-    color: var(--color-red);
-}
-
-.perfil-usuario__menuitem__link--activated{
-    color: var(--color-red);
 }
 
 .perfil-usuario__icon {

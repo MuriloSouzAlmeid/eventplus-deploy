@@ -1,3 +1,4 @@
+
 @font-face {
     font-family: Poppins-Regular;
     src: url(../../assets/fonts/Poppins/Poppins-Regular.ttf);
@@ -12,11 +13,11 @@
 
     font-family: Poppins-Regular;
     font-size: 1rem;
-    border-bottom: 1px solid black;
+    border-bottom: 2px solid var(--color-dark-blue);
 }
 
 .input-component::placeholder {
-    color: var(--color-light-brown);
+    color: var(--color-dark-blue);
 }
 
 .button-component {
@@ -24,7 +25,7 @@
     height: 40px;
     background-color: var(--color-red);
     font-family: Poppins-Regular;
-    font-size: 1.125rem; /*se liga nesse cálculo :)*/
+    font-size: 1.125rem; /*se liga nesse cÃ¡lculo :)*/
     color: var(--color-white);
     cursor: pointer;
     outline: none;
