@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./HomePage.css";
 
 import Banner from "../../components/Banner/Banner";
@@ -11,14 +11,23 @@ import Container from "../../components/Container/Container";
 import api from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
 import { nextEventResource } from "../../Services/Service";
+import { EventIdDescription } from "../../context/EventIdDescription";
+import { useNavigate } from "react-router-dom";
+
+import { GetIdEventDescription } from "../../Utils/GetEventIdDescription";
 
 
 const HomePage = () => {
+  const {setEventId} = useContext(EventIdDescription);
+
+  const navigate = useNavigate();
+
   const [nextEvents, setNextEvents] = useState([]);
   const [notifyUser, setNotifyUser] = useState(); //Componente Notification
 
   // roda somente na inicialização do componente
   useEffect(() => {
+    setEventId("");
     async function getNextEvents() {
       try {
         const promise = await api.get(nextEventResource);
@@ -42,6 +51,10 @@ const HomePage = () => {
     getNextEvents(); //chama a função
   }, []);
 
+  const handleDetalhar = (idEvento) => {
+    GetIdEventDescription(idEvento, setEventId, navigate);
+  }
+
   return (
     
     <MainContent>
@@ -62,6 +75,7 @@ const HomePage = () => {
                   description={e.descricao}
                   eventDate={e.dataEvento}
                   idEvent={e.idEvento}
+                  detalhar={handleDetalhar}
                 />
               );
             })}

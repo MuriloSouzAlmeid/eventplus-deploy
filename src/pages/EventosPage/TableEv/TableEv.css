@@ -32,6 +32,10 @@
     color: var(--color-white);
     /* border: 1px solid white; */
   }
+
+  .table-data__head{
+    display: none;
+  }
   
   .table-data__head-row {
     width: 100%;
@@ -85,12 +89,24 @@
   
   .table-data__icon {
     cursor: pointer;
+    height: 20px;
+    width: 20px;
   }
   
   @media screen and (min-width: 992px) {
+
+    .table-data__head{
+      display: block;
+    }
+
     .table-data__head-title,
     .table-data__head-data {
       font-size: 1rem;
+    }
+
+    .table-data__data--little{
+      display: flex;
+      
     }
   }
   

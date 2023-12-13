@@ -91,6 +91,8 @@
   
   .tbal-data__icon {
     cursor: pointer;
+    width: auto;
+    height: 20px;
   }
   
   .tbal-data__btn-actions {

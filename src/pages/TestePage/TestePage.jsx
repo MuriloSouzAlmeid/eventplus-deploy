@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from "react";
+import Title from "../../components/Title/Title";
 
 const TestePage = () => {
-  const [count, setCount] = useState(100);
-  const [calculation, setCalculation] = useState(0);
+  const [mensagem, setMensagem] = useState("");
 
-  //executa quando o componente for montado
-  //e quando o state count for alterado
-  useEffect(() => {
-    setCalculation( count * 2 );
-    console.log(`Rodou ${count}`);
-  }, []);
+  useEffect(()=>{
+    localStorage.setItem("teste", "Olá");
+
+    setMensagem(localStorage.getItem("teste"))
+  },[])
 
   return (
-    <>
-      <p>Count: {count}</p>
-      <button onClick={() => setCount((c) => c + 1)}>+</button>
-      <p>Calculation: {calculation}</p>
-    </>
+    <div>
+      <Title titleText={"Página de Testes"} />
+      <p>{mensagem}</p>
+    </div>
   );
 };
 

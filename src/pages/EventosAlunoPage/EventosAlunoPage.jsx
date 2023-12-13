@@ -15,6 +15,11 @@ import api, {
 
 import "./EventosAlunoPage.css";
 import { UserContext } from "../../context/AuthContext";
+import { EventIdDescription } from "../../context/EventIdDescription";
+
+import { useNavigate } from "react-router-dom";
+
+import { GetIdEventDescription } from "../../Utils/GetEventIdDescription";
 
 const EventosAlunoPage = () => {
   // state do menu mobile
@@ -37,8 +42,13 @@ const EventosAlunoPage = () => {
   const [idEvento, setIdEvento] = useState("");
   const [idComentario, setIdComentario] = useState(null);
 
+  const {setEventId} = useContext(EventIdDescription);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     loadEventsType();
+    setEventId("");
   }, [tipoEvento, userData.userId]); //
 
   async function loadEventsType() {
@@ -238,6 +248,10 @@ const EventosAlunoPage = () => {
     }
   }
 
+  const handleDetalhar = (idEvento) => {
+    GetIdEventDescription(idEvento, setEventId, navigate)
+  }
+
   return (
     <>
       <MainContent>
@@ -257,6 +271,7 @@ const EventosAlunoPage = () => {
             dados={eventos}
             fnConnect={handleConnect}
             fnShowModal={showHideModal}
+            detalhar={handleDetalhar}
           />
         </Container>
       </MainContent>

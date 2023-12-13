@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Container from "../../components/Container/Container";
 import Title from "../../components/Title/Title";
 import MainContent from "../../components/MainContent/MainContent";
@@ -19,6 +19,11 @@ import Notification from "../../components/Notification/Notification";
 import { truncateDateFromDb } from "../../Utils/stringFunctions";
 import eventoImage from "../../assets/images/tipo-evento.svg";
 import "./EventosPage.css";
+import { EventIdDescription } from "../../context/EventIdDescription";
+
+import { GetIdEventDescription } from "../../Utils/GetEventIdDescription";
+
+import { useNavigate } from "react-router-dom";
 
 export default function EventosPaage(props) {
   //dados do form
@@ -36,6 +41,11 @@ export default function EventosPaage(props) {
   //controla qual é a ação do submit, cadastrar ou atualizar
   const [frmEdit, setFrmEdit] = useState(false);
   const [notifyUser, setNotifyUser] = useState({}); //Componente Notification
+
+  const {setEventId} = useContext(EventIdDescription);
+
+  const navigate = useNavigate();
+
 
   //THE FUNCTIONS
 
@@ -66,6 +76,8 @@ export default function EventosPaage(props) {
   // READ - LIFE CICLE - Carrega os tipos de evento no carregamento do componente
   useEffect(() => {
     loadEventsType();
+
+    setEventId("");
   }, [frmEdit]); //frmEdit[instituicao ]
 
   // UPDATE
@@ -142,6 +154,7 @@ export default function EventosPaage(props) {
   // DELETE
   async function handleDelete(idElemento) {
     if (!window.confirm("Confirma Exclusão?")) {
+      editActionAbort();
       return; //retorna a função sem executar o restante do código
     }
 
@@ -270,6 +283,10 @@ export default function EventosPaage(props) {
     });
 
     return arrAux;
+  }
+
+  const handleDetalhar = (idEvento) => {
+    GetIdEventDescription(idEvento, setEventId, navigate)
   }
 
   // THE COMPONENT
@@ -450,6 +467,7 @@ export default function EventosPaage(props) {
               dados={eventos}
               fnDelete={handleDelete}
               fnUpdate={showUpdateForm}
+              detalhar={handleDetalhar}
             />
           </Container>
         </section>

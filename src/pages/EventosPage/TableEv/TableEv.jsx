@@ -4,6 +4,7 @@ import "./TableEv.css";
 import editPen from "../../../assets/images/edit-pen.svg";
 import trashDelete from "../../../assets/images/trash-delete.svg";
 import { dateFormateDbToView } from "../../../Utils/stringFunctions";
+import detail from "../../../assets/images/detail-icon.svg";
 
 // importa a biblioteca de tootips ()
 import "react-tooltip/dist/react-tooltip.css";
@@ -11,7 +12,7 @@ import { Tooltip } from "react-tooltip";
 
 // import trashDelete from "../../../assets/images/trash-delete.svg";
 
-const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
+const Table = ({ dados, fnDelete = null, fnUpdate = null, detalhar }) => {
   // console.log(dados);
   return (
     <table className="table-data">
@@ -34,6 +35,9 @@ const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
           </th>
           <th className="table-data__head-title table-data__head-title--little">
             Deletar
+          </th>
+          <th className="table-data__head-title table-data__head-title--little">
+            Detalhes
           </th>
         </tr>
       </thead>
@@ -90,6 +94,18 @@ const Table = ({ dados, fnDelete = null, fnUpdate = null }) => {
                   src={trashDelete}
                   alt=""
                   onClick={(e) => fnDelete(e.target.getAttribute("idevento"))}
+                />
+              </td>
+              <td className="table-data__data table-data__data--little">
+                <img
+                  className="table-data__icon"
+                  idevento={tp.idEvento}
+                  src={detail}
+                  alt=""
+                  onClick={ () => {
+                    detalhar(tp.idEvento);
+                  }                    
+                  }
                 />
               </td>
             </tr>

@@ -1,16 +1,14 @@
 import React from "react";
 import "./NextEvent.css";
+import { useNavigate } from "react-router-dom";
 
 import { Tooltip } from "react-tooltip";
 
 // importar a função lá do arquivo stringFunction (destructuring)
 import { dateFormatDbToView } from "../../Utils/stringFunctions";
 
-const NextEvent = ({ title, description, eventDate, idEvent }) => {
-  function conectar(idEvent) {
-    // dá pra usar a prop idEvent? testar
-    alert(`Chamar o recurso para conectar: ${idEvent}`);
-  }
+const NextEvent = ({ title, description, eventDate, idEvent, detalhar }) => {
+  
   return (
     <article className="event-card">
       <h2 className="event-card__title">{title}</h2>
@@ -32,12 +30,12 @@ const NextEvent = ({ title, description, eventDate, idEvent }) => {
       </p>
 
       <a
-        onClick={() => {
-          conectar(idEvent);
-        }}
         className="event-card__connect-link"
+        onClick={() => {
+          detalhar(idEvent);
+        }}
       >
-        Conectar
+        Detalhes
       </a>
     </article>
   );
