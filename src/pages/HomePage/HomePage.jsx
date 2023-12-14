@@ -25,28 +25,30 @@ const HomePage = () => {
   const [nextEvents, setNextEvents] = useState([]);
   const [notifyUser, setNotifyUser] = useState(); //Componente Notification
 
+
+  async function getNextEvents() {
+    try {
+      const promise = await api.get(nextEventResource);
+      const dados = await promise.data;
+      // console.log(dados);
+      setNextEvents(dados); //atualiza o state
+
+    } catch (error) {
+      console.log("não trouxe os próximos eventos, verifique lá!");
+      // setNotifyUser({
+      //   titleNote: "Erro",
+      //   textNote: `Não foi possível carregar os próximos eventos. Verifique a sua conexão com a internet`,
+      //   imgIcon: "danger",
+      //   imgAlt:
+      //   "Imagem de ilustração de erro. Rapaz segurando um balão com símbolo x.",
+      //   showMessage: true,
+      // });
+    }
+  }
+
   // roda somente na inicialização do componente
   useEffect(() => {
     setEventId("");
-    async function getNextEvents() {
-      try {
-        const promise = await api.get(nextEventResource);
-        const dados = await promise.data;
-        // console.log(dados);
-        setNextEvents(dados); //atualiza o state
-
-      } catch (error) {
-        console.log("não trouxe os próximos eventos, verifique lá!");
-        // setNotifyUser({
-        //   titleNote: "Erro",
-        //   textNote: `Não foi possível carregar os próximos eventos. Verifique a sua conexão com a internet`,
-        //   imgIcon: "danger",
-        //   imgAlt:
-        //   "Imagem de ilustração de erro. Rapaz segurando um balão com símbolo x.",
-        //   showMessage: true,
-        // });
-      }
-    }
 
     getNextEvents(); //chama a função
   }, []);

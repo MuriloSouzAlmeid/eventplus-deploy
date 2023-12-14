@@ -37,7 +37,7 @@ const Rotas = () => {
       <EventIdDescription.Provider value={{eventId, setEventId}}>
       <Routes>
         <Route element={<HomePage />} path="/" exact />
-        <Route element={<DetalhesEventoPage />} path="/detalhes-evento" />
+        <Route element={<DetalhesEventoPage />} path="/detalhes-evento/:idEvento" />
         <Route
           path="/eventos-aluno"
           element={
