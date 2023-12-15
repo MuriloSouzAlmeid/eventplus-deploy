@@ -11,14 +11,12 @@ import Container from "../../components/Container/Container";
 import api from "../../Services/Service";
 import Notification from "../../components/Notification/Notification";
 import { nextEventResource } from "../../Services/Service";
-import { EventIdDescription } from "../../context/EventIdDescription";
 import { useNavigate } from "react-router-dom";
 
 import { GetIdEventDescription } from "../../Utils/GetEventIdDescription";
 
 
 const HomePage = () => {
-  const {setEventId} = useContext(EventIdDescription);
 
   const navigate = useNavigate();
 
@@ -48,13 +46,11 @@ const HomePage = () => {
 
   // roda somente na inicialização do componente
   useEffect(() => {
-    setEventId("");
-
     getNextEvents(); //chama a função
   }, []);
 
   const handleDetalhar = (idEvento) => {
-    GetIdEventDescription(idEvento, setEventId, navigate);
+    GetIdEventDescription(idEvento, navigate);
   }
 
   return (
@@ -69,6 +65,7 @@ const HomePage = () => {
           {/* <Title titleText={"Próximos Eventos"} /> */}
 
           <div className="events-box">
+            <Title titleText={"Próximos Eventos"} />
             {nextEvents.map((e) => {
               return (
                 <NextEvent

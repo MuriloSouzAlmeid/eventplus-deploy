@@ -42,8 +42,6 @@ export default function EventosPaage(props) {
   const [frmEdit, setFrmEdit] = useState(false);
   const [notifyUser, setNotifyUser] = useState({}); //Componente Notification
 
-  const {setEventId} = useContext(EventIdDescription);
-
   const navigate = useNavigate();
 
 
@@ -77,7 +75,6 @@ export default function EventosPaage(props) {
   useEffect(() => {
     loadEventsType();
 
-    setEventId("");
   }, [frmEdit]); //frmEdit[instituicao ]
 
   // UPDATE
@@ -286,7 +283,7 @@ export default function EventosPaage(props) {
   }
 
   const handleDetalhar = (idEvento) => {
-    GetIdEventDescription(idEvento, setEventId, navigate)
+    GetIdEventDescription(idEvento, navigate)
   }
 
   // THE COMPONENT

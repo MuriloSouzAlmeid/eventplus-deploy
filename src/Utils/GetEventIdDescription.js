@@ -1,5 +1,3 @@
-export const GetIdEventDescription = (eventId, manipulationFunction, navegador) => {
-    manipulationFunction(eventId);
+export const GetIdEventDescription = (eventId, navegador) => {
     navegador(`/detalhes-evento/${eventId}`);
-    localStorage.setItem("idEvento", eventId)
 }

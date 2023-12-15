@@ -17,7 +17,6 @@ import { EventIdDescription } from "../context/EventIdDescription";
 
 // Componente Rota
 const Rotas = () => {
-  const [eventId, setEventId] = useState();
 
   return (
     <BrowserRouter>
@@ -32,10 +31,6 @@ const Rotas = () => {
           }
         />
         <Route element={<LoginPage />} path="/login" />
-      </Routes>
-
-      <EventIdDescription.Provider value={{eventId, setEventId}}>
-      <Routes>
         <Route element={<HomePage />} path="/" exact />
         <Route element={<DetalhesEventoPage />} path="/detalhes-evento/:idEvento" />
         <Route
@@ -56,7 +51,6 @@ const Rotas = () => {
           }
         />
       </Routes>
-      </EventIdDescription.Provider>
       <Footer />
     </BrowserRouter>
   );

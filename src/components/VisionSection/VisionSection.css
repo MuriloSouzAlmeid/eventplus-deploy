@@ -7,6 +7,10 @@
     font-family: Poppins-Thin;
     src: url(../../assets/fonts/Poppins/Poppins-Thin.ttf);
   }
+
+  .custom-title {
+    margin-top: 60px;
+}
   
   .vision {
     margin-top: 50px;
@@ -18,10 +22,11 @@
   .vision__box {
     width: 100%;
     height: 100%;
+    padding-top: 20px;
     background-image: url(../../assets/images/vision-background-mobile.png);
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: top;
   }
   
   .vision__title {
