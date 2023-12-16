@@ -165,8 +165,13 @@ const EventosAlunoPage = () => {
     }
   };
 
-  async function handleConnect(statusConexao, idEvento, idPresencaEvento) {
+  async function handleConnect(statusConexao, idEvento, idPresencaEvento, dataEvento) {
     // alert(statusConexao ? "Desconectar" : "Conectar");
+
+    if(new Date(dataEvento) < new Date(Date.now())){
+      alert("Não é possível editar sua presença em um evento passado")
+      return;
+    }
 
     if (!statusConexao) {
       try {

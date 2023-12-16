@@ -18,7 +18,12 @@ const DetalhesEventoPage = () => {
   const { idEvento } = useParams();
   const { userData } = useContext(UserContext);
 
-  const [detalhesEvento, setDetalhesEvento] = useState({});
+  const [detalhesEvento, setDetalhesEvento] = useState({
+    nome: "",
+    descricao: "",
+    data: "",
+    tipo: ""
+  });
   const [comentariosEvento, setComentariosEvento] = useState([]);
 
   useEffect(() => {
@@ -36,23 +41,23 @@ const DetalhesEventoPage = () => {
         setDetalhesEvento({
           nome: nomeEvento,
           descricao: descricao,
-          data: dateFormatDbToView(dataEvento),
+          data: dataEvento,
           tipo: tiposEvento.titulo,
         });
 
         console.log(detalhesEvento);
 
-        if(userData.perfil === "Administrador"){
+        if (userData.perfil === "Administrador") {
           const retornoComentarios = await api.get(
             `/ComentariosEvento/ListarComentariosPorEvento/${idEvento}`
           );
-  
+
           setComentariosEvento(retornoComentarios.data);
-        }else{
+        } else {
           const retornoComentarios = await api.get(
             `/ComentariosEvento/ListarSomenteExibe/${idEvento}`
           );
-  
+
           setComentariosEvento(retornoComentarios.data);
         }
 
@@ -70,31 +75,36 @@ const DetalhesEventoPage = () => {
   return (
     <MainContent>
       <Container>
-        <article>
+        <article className={"detalhes-evento-box"}>
           <Titulo
             titleText={"Detalhes do Evento"}
             additionalClass={"custom-title"}
           />
           <br />
           <h2>Título: {detalhesEvento.nome}</h2>
-            <br />
+          <br />
           <p>Descrição: {detalhesEvento.descricao}</p>
           <p>Tipo de Evento: {detalhesEvento.tipo}</p>
-          <p>Data: {detalhesEvento.data}</p>
+          <p>Data: {dateFormatDbToView(detalhesEvento.data)}</p>
         </article>
-        <br />
         {/* <TableCm dados={comentariosEvento}/> */}
-        <div>
+        <div className={"comentarios-evento-section"}>
           <h2>Comentários</h2>
-          {comentariosEvento.map((c) => {
-            return (
-              <>
-                <p>Usuario: {c.usuario.nome}</p>
-                <p>Comentário: {c.descricao}</p>
-                <br />
-              </>
-            );
-          })}
+          {new Date(detalhesEvento.data) > new Date(Date.now()) ? (
+            <p>Só é possível comentar em um evento que já aconteceu</p>
+          ) : comentariosEvento.length > 0 ? (
+            comentariosEvento.map((c) => {
+              return (
+                <>
+                  <p>Usuario: {c.usuario.nome}</p>
+                  <p>Comentário: {c.descricao}</p>
+                  <br />
+                </>
+              );
+            })
+          ) : (
+            <p>Ainda não há comentários para este evento</p>
+          )}
         </div>
       </Container>
     </MainContent>

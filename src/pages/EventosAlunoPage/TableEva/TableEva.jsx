@@ -60,22 +60,25 @@ const TableEva = ({
               </td>
 
               <td className="tbal-data__data tbal-data__data--big tbal-data__btn-actions">
-                <img
-                  className="tbal-data__icon"
-                  idevento={e.idEvento}
-                  src={comentaryIcon}
-                  alt=""
-                  onClick={() => {
-                    fnShowModal(e.idEvento);
-                  }}
-                />
+                {new Date(e.dataEvento) < new Date(Date.now()) ? (
+                  <img
+                    className="tbal-data__icon"
+                    idevento={e.idEvento}
+                    src={comentaryIcon}
+                    alt=""
+                    onClick={() => {
+                      fnShowModal(e.idEvento);
+                    }}
+                  />
+                ) : null}
 
                 <Toggle
                   manipulationFunction={() => {
                     fnConnect(
                       e.situacao ? true : false,
                       e.idEvento,
-                      e.idPresencaEvento
+                      e.idPresencaEvento,
+                      e.dataEvento
                     );
                   }}
                   toggleActive={e.situacao}
