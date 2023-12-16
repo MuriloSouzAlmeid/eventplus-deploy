@@ -1,59 +1,75 @@
-import {React, useContext, useState} from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom"; //v6
+//quando não colocamos o './' no import ele busca direto da pasta node_modules
+import React, { useState } from "react";
 
-// imports dos componentes de página
+//import das configurações do router-dom
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+//import das páginas
 import HomePage from "../pages/HomePage/HomePage";
-import TipoEventos from "../pages/TipoEventosPage/TipoEventosPage";
 import EventosPage from "../pages/EventosPage/EventosPage";
 import LoginPage from "../pages/LoginPage/LoginPage";
+import TiposEventos from "../pages/TiposEventosPage/TiposEventos";
 import TestePage from "../pages/TestePage/TestePage";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer/Footer";
-import { PrivateRoute } from "./PrivateRoute";
 import EventosAlunoPage from "../pages/EventosAlunoPage/EventosAlunoPage";
 import DetalhesEventoPage from "../pages/DetalhesEventoPage/DetalhesEventoPage";
 
-import { EventIdDescription } from "../context/EventIdDescription";
+//import dos componentes
+import Header from "../components/Header/Header";
+import Footer from "../components/Footer/Footer";
 
-// Componente Rota
+import { ActivatedPage } from "../context/ActivatedPage";
+
+import PrivateRoute from "./PrivateRoute";
+
 const Rotas = () => {
+  const [activatedPage, setActivatedPage] = useState({});
 
   return (
+    //lida com as representações do navegador que possui uma coleção de páginas, casa Route é uma página e o routes é lido como o conjunto de páginas/componentes
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route
-          path="/tipo-eventos"
-          element={
-            <PrivateRoute redirectTo="/">
-              <TipoEventos />
-            </PrivateRoute>
-          }
-        />
-        <Route element={<LoginPage />} path="/login" />
-        <Route element={<HomePage />} path="/" exact />
-        <Route element={<DetalhesEventoPage />} path="/detalhes-evento/:idEvento" />
-        <Route
-          path="/eventos-aluno"
-          element={
-            <PrivateRoute redirectTo="/">
-              <EventosAlunoPage />
-            </PrivateRoute>
-          }
-        />
-        <Route element={<TestePage />} path="/testes" />
-        <Route
-          path="/eventos"
-          element={
-            <PrivateRoute redirectTo="/">
-              <EventosPage />
-            </PrivateRoute>
-          }
-        />
-      </Routes>
+      <ActivatedPage.Provider value={{ activatedPage, setActivatedPage }}>
+        <Header />
+        <Routes>
+          <Route element={<HomePage />} path="/" />
+
+          <Route element={<LoginPage />} path="/login" />
+          <Route element={<DetalhesEventoPage />} path="/detalhes-evento/:idEvento" />
+
+          <Route
+            element={
+              <PrivateRoute redirectTo="/">
+                <EventosPage />
+              </PrivateRoute>
+            }
+            path="/eventos"
+          />
+
+          <Route
+            element={
+              <PrivateRoute redirectTo="/">
+                <EventosAlunoPage />
+              </PrivateRoute>
+            }
+            path="/eventos-aluno"
+          />
+
+          <Route
+            element={
+              <PrivateRoute redirectTo="/">
+                <TiposEventos />
+              </PrivateRoute>
+            }
+            path="/tipos-eventos"
+          />
+
+          <Route element={<TestePage />} path="/testes" />
+        </Routes>
+      </ActivatedPage.Provider>
       <Footer />
     </BrowserRouter>
   );
 };
 
 export default Rotas;
+
+//este arquivo representa os componentes em cada página

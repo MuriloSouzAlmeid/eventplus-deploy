@@ -1,55 +1,90 @@
-import React, { useContext, useEffect, useState } from "react";
+import { React, useContext, useEffect, useState } from "react";
 import ImageIllustrator from "../../components/ImageIllustrator/ImageIllustrator";
+import loginImage from "../../assets/images/login.svg";
 import logo from "../../assets/images/logo-pink.svg";
 import { Input, Button } from "../../components/FormComponents/FormComponents";
-import loginImage from "../../assets/images/login.svg";
-import api, { loginResource } from "../../Services/Service";
-import { useNavigate } from "react-router-dom";
+import Notification from '../../components/Notification/Notification';
+import api from "../../services/Service";
 
 import "./LoginPage.css";
-import { UserContext, userDecodeToken } from "../../context/AuthContext";
+import { UserTokenDecoder, UserContext } from "../../context/AuthContext";
+import { useNavigate } from "react-router-dom";
+import { ActivatedPage } from "../../context/ActivatedPage";
 
 const LoginPage = () => {
-  const [user, setUser] = useState({ email: "", senha: "" });
-  //importa os dados globais do usuário
-  const { userData, setUserData } = useContext(UserContext);
+  const {setActivatedPage} = useContext(ActivatedPage);
+
+  const {userData, setUserData} = useContext(UserContext);
+
+  const [user, setUser] = useState({
+    email: "",
+    senha: "",
+  });
+
   const navigate = useNavigate();
 
+  const [notifyUser, setNotifyUser] = useState({})
+
   useEffect(() => {
-    if (userData.nome) {
-      navigate("/");
-    }
-  }, [userData]);
+    setActivatedPage('login')
+
+    if(userData.nome) navigate('/');
+  }, 
+  //devemos colocar o userData como dependência para observar qualquer alteração no mesmo
+  [userData])
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    // validar usuário e senha:
-    // tamanho mínimo de caracteres : 3
-    if (user.email.length >= 3 && user.senha.length >= 3) {
-      
-      
-      try {
-        const promise = await api.post(loginResource, {
+    if (user.email.length <= 3 && user.senha.length <= 3) {
+      alert("Dados preenchidos inválidos");
+      return;
+    }
+
+    try {
+      const promisse = await api.post(
+        "/Login",
+        {
           email: user.email,
           senha: user.senha,
-        });
+        }
+        //user
+      );
 
-        const userFullToken = userDecodeToken(promise.data.token); // decodifica o token vindo da api
+      setNotifyUser({
+        titleNote: "Usuário Logado Com Sucesso",
+        textNote: `O Login foi efetuado com sucesso!`,
+        imgIcon: "success",
+        imgAlt:
+          "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok.",
+        showMessage: true
+      })
 
-        setUserData(userFullToken); // guarda o token globalmente
-        localStorage.setItem("token", JSON.stringify(userFullToken));
-        navigate("/"); //envia o usuário para a home
-      } catch (error) {
-        // erro da api: bad request (401) ou erro de conexão
-        alert("Verifique os dados e a conexão com a internet!");
-        console.log("ERROS NO LOGIN DO USUÁRIO");
-        console.log(error);
-      }
-    } else {
-      alert("Preencha os dados corretamente");
+      const userFullToken = UserTokenDecoder(promisse.data.token);
+      setUserData(userFullToken); //guarda os dados que foram decodificados no escopo global
+
+      console.log('DADOS DO USUÁRIO');
+      console.log(userData);
+
+      localStorage.setItem('token', JSON.stringify(userFullToken))//transforma o objeto em json
+
+      navigate('/') //redireciona para a página home 
+
+    } catch (error) {
+      setNotifyUser({
+        titleNote: "Erro ao se logar com o usuário",
+        textNote: `Usuário ou senhas incorretos`,
+        imgIcon: "warning",
+        imgAlt:
+          "Imagem de ilustração de sucesso. Moça segurando um balão com símbolo de confirmação ok.",
+        showMessage: true
+      })
+      console.log(error);
     }
+
+    setUser({email:'', senha:''});
   }
+
   return (
     <div className="layout-grid-login">
       <div className="login">
@@ -58,7 +93,7 @@ const LoginPage = () => {
           <ImageIllustrator
             imageRender={loginImage}
             altText="Imagem de um homem em frente de uma porta de entrada"
-            additionalClass="login-illustrator"
+            additionalClass="login-illustrator "
           />
         </div>
 
@@ -75,6 +110,7 @@ const LoginPage = () => {
               value={user.email}
               manipulationFunction={(e) => {
                 setUser({
+                  //restOperator
                   ...user,
                   email: e.target.value.trim(),
                 });
@@ -90,6 +126,7 @@ const LoginPage = () => {
               value={user.senha}
               manipulationFunction={(e) => {
                 setUser({
+                  //restOperator
                   ...user,
                   senha: e.target.value.trim(),
                 });
@@ -97,7 +134,7 @@ const LoginPage = () => {
               placeholder="****"
             />
 
-            <a href="" className="frm-login__link">
+            <a href="https://www.kabum.com.br/" className="frm-login__link">
               Esqueceu a senha?
             </a>
 
@@ -111,6 +148,8 @@ const LoginPage = () => {
           </form>
         </div>
       </div>
+
+      <Notification {...notifyUser} setNotifyUser={setNotifyUser} />
     </div>
   );
 };

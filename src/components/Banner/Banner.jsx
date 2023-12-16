@@ -1,10 +1,7 @@
 import React from 'react';
-import './Banner.css';
+import './Banner.css'
 
-const Banner = () => {
-    return (
-        <article className='banner'></article>
-    );
-};
+//como é uma única linha dá pra fazer isso
+const Banner = () => <article className='banner'></article>
 
 export default Banner;

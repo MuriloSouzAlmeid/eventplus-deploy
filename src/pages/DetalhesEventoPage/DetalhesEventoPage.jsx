@@ -3,22 +3,15 @@ import "./DetalhesEventoPage.css";
 
 import { useParams } from "react-router-dom";
 
-import {
-  commentaryEventResource,
-  eventsResource,
-} from "../../Services/Service";
-
 import MainContent from "../../components/MainContent/MainContent";
 import Container from "../../components/Container/Container";
-import Title from "../../components/Title/Title";
-import { EventIdDescription } from "../../context/EventIdDescription";
+import Titulo from "../../components/Titulo/Titulo";
 import { UserContext } from "../../context/AuthContext";
 
-import { dateFormateDbToView } from "../../Utils/stringFunctions";
+import { dateFormatDbToView } from "../../Utils/stringFunctions";
 
-import api from "../../Services/Service";
+import api from "../../services/Service";
 
-import TableCm from "./TableCm/TableCm";
 import { logDOM } from "@testing-library/react";
 
 const DetalhesEventoPage = () => {
@@ -33,7 +26,9 @@ const DetalhesEventoPage = () => {
 
     const carregarDetalhesEvento = async () => {
       try {
-        const retornoDetalhes = await api.get(`${eventsResource}/${idEvento}`);
+        const retornoDetalhes = await api.get(`/Evento/${idEvento}`);
+
+        console.log(retornoDetalhes.data);
 
         const { nomeEvento, descricao, dataEvento, tiposEvento, ...resto } =
           retornoDetalhes.data;
@@ -41,11 +36,13 @@ const DetalhesEventoPage = () => {
         setDetalhesEvento({
           nome: nomeEvento,
           descricao: descricao,
-          data: dateFormateDbToView(dataEvento),
+          data: dateFormatDbToView(dataEvento),
           tipo: tiposEvento.titulo,
         });
 
-        if(userData.role === "Administrador"){
+        console.log(detalhesEvento);
+
+        if(userData.perfil === "Administrador"){
           const retornoComentarios = await api.get(
             `/ComentariosEvento/ListarComentariosPorEvento/${idEvento}`
           );
@@ -74,7 +71,7 @@ const DetalhesEventoPage = () => {
     <MainContent>
       <Container>
         <article>
-          <Title
+          <Titulo
             titleText={"Detalhes do Evento"}
             additionalClass={"custom-title"}
           />
