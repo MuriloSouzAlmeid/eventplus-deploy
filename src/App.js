@@ -1,5 +1,5 @@
 // import logo from "./logo.svg";
-import Rotas from "./routes/routes";
+import Rotas from "./Routes/routes";
 import { UserContext } from "./context/AuthContext";
 import { useState, useEffect } from "react";
 
