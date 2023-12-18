@@ -31,7 +31,7 @@ const NextEvent = ({ title, description, eventDate, idEvento, carregarDetalhes =
         }}
         className="event-card__connect-link"
       >
-        {(new Date(eventDate) < new Date(Date.now())) ? "Detalhes" : "Conectar"}
+        Detalhes
       </p>
     </article>
   );
